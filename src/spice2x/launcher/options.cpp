@@ -2465,6 +2465,25 @@ static const std::vector<OptionDefinition> OPTION_DEFINITIONS = {
         },
     },
     {
+        // DDRP4IOPassthrough
+        .title = "DDR P4IO Passthrough",
+        .name = "ddrp4iopassthrough",
+        .desc =
+            "Enable P4IO hardware passthrough mode for DDR White/Gold cabinets.\n\n"
+            "When enabled, P4IO commands are passed through to the real hardware "
+            "instead of being emulated. This allows the real P4IO to handle cab buttons, "
+            "lights, coin mechs, and other cabinet functions.\n\n"
+            "MDXF (pad input) will still be emulated, allowing you to map external "
+            "controllers (like FSR pads) through spicecfg for pad input while using "
+            "the real cabinet hardware for everything else.\n\n"
+            "This reduces input polling overhead and provides native hardware response "
+            "for cabinet controls.\n\n"
+            "Only has an effect when running arkmdxp4.dll (DDR White/Gold).",
+        .type = OptionType::Bool,
+        .game_name = "Dance Dance Revolution",
+        .category = "Game Options (Advanced)",
+    },
+    {
         // InputRequiresFocus
         .title = "Input Requires Focus",
         .name = "inputfocus",

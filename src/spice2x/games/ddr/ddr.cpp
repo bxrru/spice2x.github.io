@@ -31,6 +31,7 @@ namespace games::ddr {
     // settings
     bool SDMODE = false;
     bool NO_CODEC_REGISTRATION = false;
+    bool P4IO_PASSTHROUGH = false;
 
     uint8_t DDR_TAPELEDS[TAPELED_DEVICE_COUNT][50][3] {};
 
@@ -231,7 +232,11 @@ namespace games::ddr {
                 cfgmgr32hook_add(settingbio2);
             }
         } else if (avs::game::DLL_NAME == "arkmdxp4.dll") {
-            devicehook_add(new DDRP4IOHandle());
+            if (P4IO_PASSTHROUGH) {
+                log_info("ddr", "P4IO passthrough mode enabled - using real P4IO hardware, MDXF will be emulated for pad input");
+            } else {
+                devicehook_add(new DDRP4IOHandle());
+            }
         } else {
             devicehook_add(new DDRFOOTHandle());
             devicehook_add(new DDRSATEHandle());
@@ -261,21 +266,25 @@ namespace games::ddr {
         memcpy(settings2.property_devicedesc, settings_property, strlen(settings_property) + 1);
         memcpy(settings2.interface_detail, settings_detail, sizeof(settings_detail));
 
-        const char settings_detail_p4io[] = R"(\\.\P4IO)";
-
-        // settings p4io
-        SETUPAPI_SETTINGS settingsp4io {};
-        settingsp4io.class_guid[0] = 0x8B7250A5;
-        settingsp4io.class_guid[1] = 0x46C94F61;
-        settingsp4io.class_guid[2] = 0x68E63A84;
-        settingsp4io.class_guid[3] = 0x206A4706;
-        memcpy(settingsp4io.property_devicedesc, settings_property, strlen(settings_property) + 1);
-        memcpy(settingsp4io.interface_detail, settings_detail_p4io, sizeof(settings_detail_p4io));
-
         // add settings
         setupapihook_add(settings1);
         setupapihook_add(settings2);
-        setupapihook_add(settingsp4io);
+
+        // P4IO SetupAPI settings - only add when emulating P4IO
+        // In passthrough mode, let the real driver handle device enumeration
+        if (!P4IO_PASSTHROUGH) {
+            const char settings_detail_p4io[] = R"(\\.\P4IO)";
+
+            SETUPAPI_SETTINGS settingsp4io {};
+            settingsp4io.class_guid[0] = 0x8B7250A5;
+            settingsp4io.class_guid[1] = 0x46C94F61;
+            settingsp4io.class_guid[2] = 0x68E63A84;
+            settingsp4io.class_guid[3] = 0x206A4706;
+            memcpy(settingsp4io.property_devicedesc, settings_property, strlen(settings_property) + 1);
+            memcpy(settingsp4io.interface_detail, settings_detail_p4io, sizeof(settings_detail_p4io));
+
+            setupapihook_add(settingsp4io);
+        }
 
         // misc hooks
         detour::iat_try("GetAsyncKeyState", GetAsyncKeyState_hook, avs::game::DLL_INSTANCE);

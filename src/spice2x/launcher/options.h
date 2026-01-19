@@ -254,6 +254,7 @@ namespace launcher {
             MidiAlgoVer,
             MidiNoteSustain,
             DDRP4IOBufferMode,
+            DDRP4IOPassthrough,
             InputRequiresFocus,
             NostalgiaPoke,
             ForceBackBufferCount,

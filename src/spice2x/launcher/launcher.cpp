@@ -684,6 +684,9 @@ int main_implementation(int argc, char *argv[]) {
     if (options[launcher::Options::DDRSkipCodecRegisteration].value_bool()) {
         games::ddr::NO_CODEC_REGISTRATION = true;
     }
+    if (options[launcher::Options::DDRP4IOPassthrough].value_bool()) {
+        games::ddr::P4IO_PASSTHROUGH = true;
+    }
     if (options[launcher::Options::LoadSteelChronicleModule].value_bool()) {
         attach_sc = true;
     }

@@ -8,6 +8,7 @@ namespace games::ddr {
     // settings
     extern bool SDMODE;
     extern bool NO_CODEC_REGISTRATION;
+    extern bool P4IO_PASSTHROUGH;
 
     // Buffers to store RGB data for tape LEDs on gold cabinets
     const size_t TAPELED_DEVICE_COUNT = 11;
