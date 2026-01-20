@@ -134,6 +134,23 @@ void acio::attach_icca() {
     MODULES.push_back(icca_module);
 }
 
+void acio::attach_mdxf() {
+    log_info("acio", "SpiceTools ACIO MDXF");
+
+    // load instance if needed
+    if (!acio::DLL_INSTANCE) {
+        acio::DLL_INSTANCE = LoadLibraryA("libacio.dll");
+    }
+
+    // get hook mode
+    acio::HookMode hook_mode = get_hookmode();
+
+    // load single module
+    auto mdxf_module = new acio::MDXFModule(acio::DLL_INSTANCE, hook_mode);
+    mdxf_module->attach();
+    MODULES.push_back(mdxf_module);
+}
+
 void acio::detach() {
 
     // clear modules

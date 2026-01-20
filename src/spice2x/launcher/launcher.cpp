@@ -195,6 +195,7 @@ int main_implementation(int argc, char *argv[]) {
     bool attach_io = false;
     bool attach_acio = false;
     bool attach_icca = false;
+    bool attach_mdxf = false;
     bool attach_device = false;
     bool attach_extdev = false;
     bool attach_ami2000 = false;
@@ -684,8 +685,10 @@ int main_implementation(int argc, char *argv[]) {
     if (options[launcher::Options::DDRSkipCodecRegisteration].value_bool()) {
         games::ddr::NO_CODEC_REGISTRATION = true;
     }
-    if (options[launcher::Options::DDRP4IOPassthrough].value_bool()) {
-        games::ddr::P4IO_PASSTHROUGH = true;
+    if (options[launcher::Options::DDRMDXFEmulation].value_bool()) {
+        if (!attach_io) {
+            attach_mdxf = true;
+        }
     }
     if (options[launcher::Options::LoadSteelChronicleModule].value_bool()) {
         attach_sc = true;
@@ -2230,6 +2233,11 @@ int main_implementation(int argc, char *argv[]) {
     // acio icca attach
     if (attach_icca) {
         acio::attach_icca();
+    }
+
+    // acio mdxf attach
+    if (attach_mdxf) {
+        acio::attach_mdxf();
     }
 
     // device attach

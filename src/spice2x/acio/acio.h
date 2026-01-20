@@ -16,5 +16,6 @@ namespace acio {
 
     void attach();
     void attach_icca();
+    void attach_mdxf();
     void detach();
 }
