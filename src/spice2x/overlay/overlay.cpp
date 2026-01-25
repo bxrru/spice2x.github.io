@@ -188,7 +188,7 @@ void overlay::SpiceOverlay::init() {
         ImGui::GetIO().FontGlobalScale = scale;
     }
 
-    // crimson theme (#dc143c inspired)
+    // red theme based on:
     // https://github.com/ocornut/imgui/issues/707#issuecomment-760220280
     // r, g, b, a
     ImVec4* colors = ImGui::GetStyle().Colors;
@@ -205,20 +205,20 @@ void overlay::SpiceOverlay::init() {
     colors[ImGuiCol_FrameBgActive]          = ImVec4(0.24f, 0.24f, 0.24f, 0.80f);
 
     colors[ImGuiCol_TitleBg]                = ImVec4(0.04f, 0.04f, 0.04f, 1.00f);
-    colors[ImGuiCol_TitleBgActive]          = ImVec4(0.50f, 0.05f, 0.15f, 1.00f);
-    colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(0.50f, 0.05f, 0.15f, 1.00f);
+    colors[ImGuiCol_TitleBgActive]          = ImVec4(0.48f, 0.16f, 0.16f, 1.00f);
+    colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(0.48f, 0.16f, 0.16f, 1.00f);
     colors[ImGuiCol_MenuBarBg]              = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
     colors[ImGuiCol_ScrollbarBg]            = ImVec4(0.02f, 0.02f, 0.02f, 0.53f);
     colors[ImGuiCol_ScrollbarGrab]          = ImVec4(0.31f, 0.31f, 0.31f, 1.00f);
     colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.41f, 0.41f, 0.41f, 1.00f);
     colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
-    colors[ImGuiCol_CheckMark]              = ImVec4(0.863f, 0.078f, 0.235f, 1.00f);
-    colors[ImGuiCol_SliderGrab]             = ImVec4(0.863f, 0.078f, 0.235f, 0.40f);
-    colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.863f, 0.078f, 0.235f, 1.00f);
+    colors[ImGuiCol_CheckMark]              = ImVec4(0.89f, 0.00f, 0.19f, 1.00f);
+    colors[ImGuiCol_SliderGrab]             = ImVec4(1.00f, 0.19f, 0.19f, 0.40f);
+    colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.89f, 0.00f, 0.19f, 1.00f);
 
-    colors[ImGuiCol_Button]                 = ImVec4(0.863f, 0.078f, 0.235f, 0.40f);
-    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.95f, 0.10f, 0.28f, 1.00f);
-    colors[ImGuiCol_ButtonActive]           = ImVec4(0.75f, 0.07f, 0.20f, 0.90f);
+    colors[ImGuiCol_Button]                 = ImVec4(1.00f, 0.19f, 0.19f, 0.40f);
+    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.80f, 0.17f, 0.00f, 1.00f);
+    colors[ImGuiCol_ButtonActive]           = ImVec4(0.80f, 0.17f, 0.00f, 0.90f);
 
     colors[ImGuiCol_Header]                 = ImVec4(0.33f, 0.35f, 0.36f, 0.53f);
     colors[ImGuiCol_HeaderHovered]          = ImVec4(0.44f, 0.44f, 0.44f, 0.67f);
