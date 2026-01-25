@@ -51,7 +51,7 @@ static std::atomic<bool> MDXF_THREAD_RUNNING{false};
 
 static std::thread MDXF_THREAD;
 
-static constexpr int THREAD_REFRESH_RATE_HZ = 250;
+static constexpr int THREAD_REFRESH_RATE_HZ = 165;
 static constexpr auto THREAD_PERIOD = std::chrono::milliseconds(1000 / THREAD_REFRESH_RATE_HZ);
 
 // buffers
