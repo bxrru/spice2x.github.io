@@ -494,6 +494,28 @@ void acio::MDXFModule::attach() {
     ACIO_MODULE_HOOK(ac_io_mdxf_get_control_status_buffer);
     ACIO_MODULE_HOOK(ac_io_mdxf_set_output_level);
     ACIO_MODULE_HOOK(ac_io_mdxf_update_control_status_buffer);
+
+    // Force MDXF emulation active for any DDR Ace+ (model "MDX") game as soon
+    // as the module is attached. The original design lazily flipped
+    // IS_MDXF_ACTIVE the first time arkmdxp4.dll called into libacio's
+    // ac_io_mdxf_update_control_status_buffer, which never happens on setups
+    // where arkmdxp4 is missing or routes pad I/O through a different path.
+    // The MDXFModule is loaded for every game by acio::attach(), so we gate on
+    // the AVS model here to avoid spinning a poll thread on non-DDR games.
+    if (!avs::game::is_model("MDX")) {
+        return;
+    }
+
+    log_info("mdxf", "forcing mdxf emulation active");
+    IS_MDXF_ACTIVE = true;
+
+    // Start the poll thread unconditionally so the ring buffer stays populated
+    // between input events even when arkmdxp4 is not driving updates. AUTO
+    // mode's refresh-rate measurement relies on ARKMDXP4_POLL calls and would
+    // otherwise never start a thread; BACKFILL mode would rely on game-side
+    // polls that may also be absent.
+    IS_THREAD_NEEDED = true;
+    mdxf_thread_start();
 }
 
 acio::MDXFModule::~MDXFModule() {
