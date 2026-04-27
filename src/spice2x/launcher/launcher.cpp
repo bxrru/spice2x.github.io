@@ -687,7 +687,16 @@ int main_implementation(int argc, char *argv[]) {
     }
     if (options[launcher::Options::DDRMDXFEmulation].value_bool()) {
         if (!attach_io) {
-            attach_mdxf = true;
+            // Enable the full I/O attach path (full ACIO module set + device.dll
+            // SCI stubs) instead of just hooking MDXF. arkmdxp4.dll talks to
+            // device.dll's devsci_*/p4io_sci_* functions to read MDXF over a
+            // serial channel; without spicedevice_attach()'s no-op stubs, those
+            // calls hit real implementations that produce garbage panel data
+            // when no real MDXF is connected (visible as nonzero counts in
+            // arkmdxp4's initPanelCounter at boot). DDRGame::attach() / the
+            // DDRP4IOHandle device hook is gated on attach_ddr, which stays
+            // false in -exec mode, so real P4IO USB hardware is preserved.
+            attach_io = true;
         }
     }
     if (options[launcher::Options::LoadSteelChronicleModule].value_bool()) {
